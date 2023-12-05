@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        title: 'Roboto_400Regular',
-        body: 'Roboto_700Bold',
+        title: 'Roboto_700Bold',
+        body: 'Roboto_400Regular',
         alt: 'BaiJamjuree_700Bold',
       },
 
