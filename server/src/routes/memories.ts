@@ -1,11 +1,18 @@
 import { FastifyInstance } from 'fastify'
 import { prisma } from '../lib/prisma'
-import { z } from 'zod' // importe o z de zod
+import { z } from 'zod'
 
 export async function memoriesRoutes(app: FastifyInstance) {
+  app.addHook('preHandler', async (request) => {
+    await request.jwtVerify()
+  })
+
   // Listagem de memorias
-  app.get('/memories', async () => {
+  app.get('/memories', async (request) => {
     const memories = await prisma.memory.findMany({
+      where: {
+        userId: request.user.sub,
+      },
       orderBy: {
         createdAt: 'asc',
       },
@@ -21,7 +28,8 @@ export async function memoriesRoutes(app: FastifyInstance) {
   })
 
   // Lista uma memoria
-  app.get('/memories/:id', async (request) => {
+  app.get('/memories/:id', async (request, reply) => {
+    // Reply serve para retornar uma resposta.
     const paramsSchema = z.object({
       id: z.string().uuid(),
     })
@@ -33,6 +41,10 @@ export async function memoriesRoutes(app: FastifyInstance) {
         id,
       },
     })
+
+    if (!memory.isPublic && memory.userId !== request.user.sub) {
+      return reply.status(401).send()
+    } // Se a memória não for publica e o ID do usuário que criou a memória for diferente do ID do usuário que está logado, faça uma rota para o erro 401
 
     return memory
   })
@@ -52,15 +64,15 @@ export async function memoriesRoutes(app: FastifyInstance) {
         content,
         coverUrl,
         isPublic,
-        userId: '8abad5c2-f81a-4790-85da-386ccbb1837d',
-      }, // Como não temos autenticação de usuário ainda, pegamos o id do usuário criado no prisma studio.
+        userId: request.user.sub, // Colocamos o request.user.sub no lugar do ID estático
+      },
     })
 
     return memory
   })
 
   // Atualiza uma memoria
-  app.put('/memories/:id', async (request) => {
+  app.put('/memories/:id', async (request, reply) => {
     const paramsSchema = z.object({
       id: z.string().uuid(),
     })
@@ -75,7 +87,17 @@ export async function memoriesRoutes(app: FastifyInstance) {
 
     const { content, coverUrl, isPublic } = bodySchema.parse(request.body)
 
-    const memory = await prisma.memory.update({
+    let memory = await prisma.memory.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    })
+
+    if (memory.userId !== request.user.sub) {
+      return reply.status(401).send()
+    } // Primeiro criamos uma variavel para encontrar a memoria, depois verificamos se o ID de quem criou a memória for diferente do ID de quem está logado, então criamos uma rota para um erro 401.
+
+    memory = await prisma.memory.update({
       where: {
         id,
       },
@@ -90,12 +112,22 @@ export async function memoriesRoutes(app: FastifyInstance) {
   })
 
   // Apaga uma memória
-  app.delete('/memories/:id', async (request) => {
+  app.delete('/memories/:id', async (request, reply) => {
     const paramsSchema = z.object({
       id: z.string().uuid(),
     })
 
     const { id } = paramsSchema.parse(request.params)
+
+    const memory = await prisma.memory.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    })
+
+    if (memory.userId !== request.user.sub) {
+      return reply.status(401).send()
+    } // Utilizamos a mesma lógica do put
 
     await prisma.memory.delete({
       where: {
