@@ -1,10 +1,13 @@
-import { User } from "lucide-react"
+import { cookies } from "next/headers" // Importe cookies
 import { Copyright } from "@/components/Copyright"
 import { Hero } from "@/components/Hero"
 import { SignIn } from "@/components/SignIn"
+import { Profile } from "@/components/Profile"
 import { EmptyMemories } from "@/components/EmptyMemories"
 
 export default function Home() {
+  const isAuthenticated = cookies().has('token')
+
   return (
     <main className="grid min-h-screen grid-cols-2">
       {/* Left */}
@@ -16,7 +19,7 @@ export default function Home() {
         {/* Stripes */}
         <div className="absolute right-2 top-0 bottom-0 w-2 bg-stripes" />
 
-        <SignIn />
+        {isAuthenticated ? <Profile /> : <SignIn />} {/* Se isAuthenticates mostre Profile se não mostre sign */}
 
         <Hero />
           
