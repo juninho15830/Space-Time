@@ -1,5 +1,6 @@
 import Image from "next/image"
 import logo from '../assets/spacetime-logo.svg'
+import Link from "next/link"
 
 export function Hero() {
     return(
@@ -13,7 +14,7 @@ export function Hero() {
               </p>
             </div>
 
-            <a className="inline-block rounded-full bg-green-500 px-5 py-3 font-alt text-sm uppercase leading-none text-black hover:bg-green-600" href="">CADASTRAR LEMBRANÇA</a>
+            <Link className="inline-block rounded-full bg-green-500 px-5 py-3 font-alt text-sm uppercase leading-none text-black hover:bg-green-600" href="/memories/new">CADASTRAR LEMBRANÇA</Link>
           </div>
     )
 }
