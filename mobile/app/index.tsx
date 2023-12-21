@@ -2,11 +2,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'expo-router';
 import { View, Text, TouchableOpacity } from 'react-native'
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
-import { styled } from 'nativewind'
 import * as SecureStore from 'expo-secure-store';
-
-
-
 
 import NLWLogo from '../src/assets/nlw-spacetime-logo.svg'
 import { api } from '../src/lib/api'
@@ -19,8 +15,6 @@ const discovery = {
 
 export default function App() {
   const router = useRouter()
-
-  
 
   const [, response, signInWithGithub] = useAuthRequest(
     {
@@ -61,14 +55,11 @@ useEffect(() => {
     }
   }, [response]);
 
-
-
   return (
     <View
       className=" flex-1 items-center px-8 py-10"
     >
       
-
       <View className="flex-1 items-center justify-center gap-6">
         <NLWLogo />
 
