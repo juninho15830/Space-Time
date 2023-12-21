@@ -7,14 +7,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState } from "react";
 
 export default function NewMemory() {
-    const { bottom, top } = useSafeAreaInsets()
+    const { bottom, top } = useSafeAreaInsets() 
 
     const [isPublic, setIsPublic] = useState(false)
-
     return (
         <ScrollView 
             className="flex-1 px-8"
-            contentContainerStyle={{ paddingBottom: bottom, paddingTop: top }}
+            contentContainerStyle={{ paddingBottom: bottom, paddingTop: top }} // 
         >
             <View className=" mt-4 flex-row items-center justify-between">
                 <NLWLogo />
@@ -25,7 +24,7 @@ export default function NewMemory() {
 
             <View className="mt-6 space-y-6">
                 <View className="flex-row items-center gap-2">
-                    <Switch 
+                    <Switch
                         value={isPublic} 
                         onValueChange={setIsPublic}
                         thumbColor={isPublic ? '#9b79ea' : '#9e9ea0'}
@@ -49,7 +48,7 @@ export default function NewMemory() {
                 </TouchableOpacity>
                     
                 <TextInput
-                    multiline
+                    multiline 
                     className="p-0 font-body text-lg text-gray-50 text-justify"
                     placeholderTextColor="#56565a"
                     placeholder="Fique livre para adicionar fotos, vídeos e relatos sobre essa experiência que você quer lembrar para sempre"
@@ -58,7 +57,6 @@ export default function NewMemory() {
                 <TouchableOpacity
                     activeOpacity={0.7}
                     className="items-center rounded-full bg-green-500 px-5 py-2"
-
                 >
                     <Text className="font-alt text-sm uppercase text-black">
                         Salvar
