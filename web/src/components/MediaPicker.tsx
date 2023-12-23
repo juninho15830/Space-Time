@@ -3,23 +3,19 @@
 import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 
-type Props = {
-  id?: string;
-  name?: string;
-};
-
-export const MediaPicker = ({ id = 'media', name = 'media' }: Props) => {
-  const [preview, setPreview] = useState<
-    | {
-        src: string;
-        type: 'image' | 'video';
-      }
-    | undefined
-  >();
-
-  const onFileSelected = (evt: ChangeEvent<HTMLInputElement>) => {
-    const { files } = evt.target;
-
+export function MediaPicker() {
+  const [preview, setPreview] = useState< 
+    
+    {
+      src: string;
+      type: 'image' | 'video';
+    }
+    | null
+  >(null);
+  
+  const onFileSelected = (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target; 
+    
     if (!files || !files.length) {
       return;
     }
@@ -35,10 +31,10 @@ export const MediaPicker = ({ id = 'media', name = 'media' }: Props) => {
   return (
     <>
       <input
-        accept={'image/*,video/*'}
+        accept={'image/*,video/*'} 
         className="invisible h-0 w-0"
-        id={id}
-        name={name}
+        name="coverUrl"
+        id="media"
         onChange={onFileSelected}
         type="file"
       />
