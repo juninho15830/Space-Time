@@ -14,9 +14,11 @@ import Stripes from '../src/assets/stripes.svg'
 import { SplashScreen, Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import * as SecureStore from 'expo-secure-store' 
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 const StyledStripes = styled(Stripes)
+
+SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
     const [isUserAuthenticated, setIsUserAuthenticated] = useState<null | boolean>(
@@ -35,12 +37,17 @@ export default function Layout() {
         })
     }, []) 
 
-    if (!hasLoadedFonts) {
-        return <SplashScreen />
-    }
+    const onLayoutRootView = useCallback(async () => {
+        if (hasLoadedFonts) {
+          // This tells the splash screen to hide immediately
+          SplashScreen.hideAsync();
+        }
+      }, [hasLoadedFonts]);
+    
+      if (!hasLoadedFonts) return null;
 
     return (
-        <ImageBackground 
+        <ImageBackground onLayout={onLayoutRootView}
             source={blurBg} 
             className="relative bg-gray-900 flex-1"
             imageStyle={{ position: 'absolute', left: '-100%'}}
