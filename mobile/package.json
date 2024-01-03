@@ -13,11 +13,13 @@
     "@expo-google-fonts/roboto": "^0.2.3",
     "@types/react": "~18.2.14",
     "axios": "^1.6.2",
+    "dayjs": "^1.11.10",
     "expo": "~49.0.15",
     "expo-auth-session": "~5.0.2",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
     "expo-font": "~11.4.0",
+    "expo-image-picker": "~14.3.2",
     "expo-linking": "~5.0.2",
     "expo-router": "^2.0.0",
     "expo-secure-store": "~12.3.1",
@@ -32,8 +34,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "typescript": "^5.1.3",
-    "expo-image-picker": "~14.3.2"
+    "typescript": "^5.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

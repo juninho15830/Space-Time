@@ -6,11 +6,12 @@ import { Link, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
-import * as SecureStore from 'expo-secure-store' // 1 Importe SecureStore
+import * as SecureStore from 'expo-secure-store'
 import { api } from '../src/lib/api'
 
 export default function NewMemory() {
     const { bottom, top } = useSafeAreaInsets() 
+
     const router = useRouter()
 
     const [preview, setPreview] = useState<string | null>(null)
@@ -20,40 +21,42 @@ export default function NewMemory() {
 
     async function openImagePicker() {
         try {
-          const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 1,
-          })
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                quality: 1,
+            })
     
-          if (result.assets[0]) {
-            setPreview(result.assets[0].uri)
-          }
+            if (result.assets[0]) {
+                setPreview(result.assets[0].uri)
+            }
         } catch (err) {
-          // deu erro mas eu não tratei
+            // deu erro mas eu não tratei
         }
       }
 
       async function handleCreateMemory() {
-        /*await SecureStore.deleteItemAsync('token')
-        return;*/
+        /* Dica:
+        await SecureStore.deleteItemAsync('token')
+        return;
+        */
 
         const token = await SecureStore.getItemAsync('token')
     
         let coverUrl = ''
-    
+        
         if (preview) {
-          const uploadFormData = new FormData()
-    
-          uploadFormData.append('file', {
-            uri: preview,
-            name: 'image.jpg',
-            type: 'image/jpg',
-          } as any)
-
+            const uploadFormData = new FormData()
+        
+            uploadFormData.append('file', {
+                uri: preview,
+                name: 'image.jpg',
+                type: 'image/jpeg',
+            } as any)
 
             const uploadResponse = await api.post('/upload', uploadFormData, {
-                headers: {
-                  'Content-Type': 'multipart/form-data',
+                // É obrigatório passar este header indicando o multipart, caso contrário o android retorna um erro de Possible Unhandled Promise Rejection (id: ):[AxiosError: Network Error]
+                headers: { 
+                    'Content-Type': 'multipart/form-data',
                 },
             })
         
@@ -78,10 +81,13 @@ export default function NewMemory() {
             className="flex-1 px-8"
             contentContainerStyle={{ paddingBottom: bottom, paddingTop: top }}
         >
-            <View className=" mt-4 flex-row items-center justify-between">
+            <View className="mt-4 flex-row items-center justify-between">
                 <NLWLogo />
-                <Link href="/memories" className="h-10 w-10 relative rounded-full bg-purple-500 text-center justify-center py-2.5">
-                    <Icon name="arrow-left" size={16} color="#FFF"/>
+
+                <Link href="/memories" asChild>
+                    <TouchableOpacity className="h-10 w-10 items-center justify-center rounded-full bg-purple-500">
+                        <Icon name="arrow-left" size={16} color="#fff" />
+                    </TouchableOpacity>
                 </Link>
             </View>
 
