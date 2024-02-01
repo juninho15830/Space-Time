@@ -47,12 +47,7 @@ export default async function Page({ params }: Props) {
           <time className="ml-8 flex items-center gap-2 text-gray-100 before:h-px before:w-5 before:bg-gray-50">
             {dayjs(memoryDetail.createdAt).format('D[ de ]MMMM[, ]YYYY')}
           </time>
-          <button
-            className=" text-gray-200 hover:text-red-400 duration-200 pr-8"
-            type="button"
-          >
-            <Trash2 size={20} className="" />
-          </button>
+
         </div>
         <div className="flex items-center gap-4">
           {memoryDetail.isPublic ? (

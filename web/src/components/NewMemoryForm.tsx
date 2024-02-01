@@ -2,50 +2,14 @@
 
 import { Camera } from "lucide-react";
 import { MediaPicker } from "./MediaPicker";
-import { FormEvent } from "react";
-import Cookie from 'js-cookie' 
-import { api } from "@/lib/api";
-import { useRouter } from "next/navigation"; // Importe UseRouter
+import { useContext } from "react"
+import { MemoriesContext } from "@/contexts/MemoriesContext"
 
 export function NewMemoryForm() {
-    const router = useRouter() // 1 Passa o useRouter para uma variavel
-
-    async function handleCreateMemory(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-
-        const formData = new FormData(event.currentTarget)
-
-        const fileToUpload = formData.get('coverUrl')
-
-        let coverUrl = ''
-
-        if (fileToUpload) {
-
-            const uploadFormData = new FormData()
-            uploadFormData.set('file', fileToUpload)
-
-            const uploadResponse = await api.post('/upload', uploadFormData)
-
-            coverUrl = uploadResponse.data.fileUrl
-        }
-
-        const token = Cookie.get('token')
-
-        await api.post('memories', {
-            coverUrl,
-            content: formData.get('content'),
-            isPublic: formData.get('isPublic'),
-        }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-
-        router.push('/') // 2 Passa a rota para home
-    }
-
+    const { createMemory } = useContext(MemoriesContext) 
+   
     return (
-        <form onSubmit={handleCreateMemory} className="flex flex-1 h-full flex-col gap-2">
+        <form onSubmit={createMemory} className="flex flex-1 h-full flex-col gap-2">
             <div className="flex items-center gap-4">
                 <label htmlFor="media" className="flex cursor-pointer items-center gap-1.5 text-sm text-gray-200 hover:text-gray-100">
                     <Camera className="h-4 w-4"/>

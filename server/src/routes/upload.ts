@@ -1,14 +1,17 @@
 import { randomUUID } from 'node:crypto'
-import { extname, resolve } from 'node:path'
+import path, { extname, resolve } from 'node:path'
 import { FastifyInstance } from 'fastify'
 import { createWriteStream } from 'node:fs'
 import { pipeline } from 'node:stream'
 import { promisify } from 'node:util'
+import fs from 'fs';
 
 const pump = promisify(pipeline)
 
 export async function uploadRoutes(app: FastifyInstance) {
+  
   app.post('/upload', async (request, reply) => {
+  
     const upload = await request.file({
       limits: {
         fileSize: 5_242_880, // 5mb
@@ -41,5 +44,18 @@ export async function uploadRoutes(app: FastifyInstance) {
     const fileUrl = new URL(`/uploads/${fileName}`, fullUrl).toString()
 
     return { fileUrl }
+  })
+
+  app.delete('/uploads/:fileName', async (request, reply) => {
+    const { fileName } = request.params as { fileName: string };
+    
+    try {
+      const filePath = path.resolve(__dirname, '..', '..', 'uploads', fileName);
+      fs.unlinkSync(filePath);
+      return reply.status(200).send('Arquivo excluído com sucesso');
+    } catch (error) {
+      console.error('Erro ao excluir o arquivo:', error);
+      return reply.status(500).send('Erro ao excluir o arquivo');
+    }
   })
 }
