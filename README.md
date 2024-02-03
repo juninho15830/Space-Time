@@ -14,6 +14,11 @@ Back-End em Nodejs com Typescript</p>
  
 <p>No Back-End havia sido feita a rota para exclusão da memória no banco de dados mas não a rota para exclusão do arquivo de imagem, então eu a fiz também.</p>
 
+<p>Como ainda não fiz o deploy desta aplicação, você pode ver como ficou clicando no link do video do Youtube</p>
+<a href="https://youtu.be/T9tc_p42_xA?si=LEm0TcofNUF_aTH2">Apresentação do projeto no Youtube</a>
+<br>
+<br>
+
 <img src="https://i.imgur.com/6Cg7u7z.png" alt="Imagem do projeto">
 <br>
 <br>
