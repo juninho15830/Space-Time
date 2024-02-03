@@ -107,7 +107,7 @@ GITHUB_CLIENT_SECRET="66187c3f6267f9ae405b6e98dacd1028693ef7ef"
 
 <p>No back-end também temos que criar uma pasta para salvar os arquivos de imagem, então na pasta raiz "server" crie uma pasta chamada "uploads".</p>
 
-<img src="https://i.imgur.com/0lfgFdh.png" alt="Imagem 10" width="600px">
+<img src="https://i.imgur.com/0lfgFdh.png" alt="Imagem 10" width="400px">
 <br>
 
 <p>Em seguida abra o terminal na pasta raiz “server” e faça um “npm install” para instalar as dependências. </p>
@@ -116,6 +116,7 @@ GITHUB_CLIENT_SECRET="66187c3f6267f9ae405b6e98dacd1028693ef7ef"
 npm install
 ```
 
+<br>
 <br>
 
 <h3>5-Rodar o projeto:</h3>
