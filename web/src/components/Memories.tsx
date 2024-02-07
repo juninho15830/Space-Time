@@ -8,7 +8,6 @@ import Link from "next/link"
 import { ArrowRight, Trash2 } from "lucide-react"
 import { useContext } from "react"
 import { MemoriesContext } from "@/contexts/MemoriesContext"
-import { ButtonDel } from "./ButtonDel"
 
 dayjs.locale(ptBr)
 
